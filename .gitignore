@@ -5,3 +5,6 @@ dist/
 **/RCS/**
 .idea
 .ropeproject
+data
+data/triage-tools-tickets
+.vscode
