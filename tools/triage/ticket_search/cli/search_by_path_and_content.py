@@ -27,6 +27,14 @@ class SearchByPathAndContent(Command):
     def get_friendly_name(self) -> str:
         return "Search by path and content"
 
+    def _run_internal(self, workflow_data: "WorkflowData", args: list, days: int, content_search: str, path_search: str) :
+        self.args = args
+        self.args.days = days
+        self.args.openshift_version = None
+        self.args.content_search = [content_search]
+        self.args.path_search = [path_search]
+        return self.run(workflow_data)
+
     def run(self, workflow_data: "WorkflowData") -> "WorkflowData":
         """This runs the command"""
 
@@ -49,8 +57,10 @@ class SearchByPathAndContent(Command):
         root_dir = f"{DATA_DIRECTORY}"
         entries = {}
         if "issue_ids" not in workflow_data:
+            self.logger.debug("Grabbing issue ids from cache")
             entries = self.issue_cache.get_cached_issue_ids()
         else:
+            self.logger.debug("Grabbing issue ids from workflow data")
             entries = workflow_data["issue_ids"]
         count = 1
         self.logger.debug(f"{entries}")

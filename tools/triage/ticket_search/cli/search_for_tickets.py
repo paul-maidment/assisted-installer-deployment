@@ -32,6 +32,14 @@ class SearchForTickets(Command):
     def get_friendly_name(self) -> str:
         return "Search for tickets"
 
+    def _run_internal(self, workflow_data: "WorkflowData", args: list, jira_access_token:str, days: int) :
+        self.jira_access_token = jira_access_token
+        self.args = args
+        self.args.days = days
+        self.args.jql = None
+        self.args.openshift_version = None
+        return self.run(workflow_data)
+
     def run(self, workflow_data: "WorkflowData") -> "WorkflowData":
         """This runs the command"""
         # Set up the ticket fetcher

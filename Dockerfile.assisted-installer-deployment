@@ -1,6 +1,7 @@
 FROM quay.io/assisted-installer-ops/base-python:3.11.0
 
 RUN dnf install -y \
+    which \
     jq \
     gcc \
     git \
